@@ -1,19 +1,19 @@
 # Calculator
 
-This is a small command-line calculator written in C. It keeps the flow simple: pick an operation, enter two numbers, and get the result.
+This project is a simple command-line calculator written in C. It lets the user choose an operation, enter two numbers, and see the result right away.
 
-## Features
+## What It Does
 
-- Addition
-- Subtraction
-- Multiplication
-- Division
-- Basic input validation
-- Protection against division by zero
+- Adds two numbers
+- Subtracts two numbers
+- Multiplies two numbers
+- Divides two numbers
+- Checks for invalid input
+- Prevents division by zero
 
 ## Build
 
-Use any C compiler. With GCC:
+Use GCC or any other C compiler:
 
 ```bash
 gcc -std=c11 -Wall -Wextra -Wpedantic -o calculator.exe calculator.c
@@ -27,13 +27,21 @@ On Windows:
 calculator.exe
 ```
 
-On Linux or macOS, build and run with:
+On Linux or macOS:
 
 ```bash
 gcc -std=c11 -Wall -Wextra -Wpedantic -o calculator calculator.c
 ./calculator
 ```
 
-## Files
+## How To Use
 
-- `calculator.c` - Main calculator program
+1. Open the program.
+2. Choose an operation from the menu.
+3. Enter the first number.
+4. Enter the second number.
+5. View the result.
+
+## Repository
+
+[GitHub Repository](https://github.com/kansaldhruv/CodeAlpha_CALCULATOR.git)
