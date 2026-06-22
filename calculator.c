@@ -1,73 +1,71 @@
+#include <errno.h>
 #include <stdio.h>
 #include <stdlib.h>
 
-void displayMenu();
-void clearInputBuffer();
+#define INPUT_SIZE 128
 
-int main() {
+static void showMenu(void);
+static int readInt(const char *prompt, int *value);
+static int readDouble(const char *prompt, double *value);
+
+int main(void) {
     int choice;
-    double num1, num2, result;
+    double first;
+    double second;
+    double result;
 
-    while (1) {
-        displayMenu();
-        printf("Enter your choice (1-5): ");
-        
-        // Validate if input is a valid integer
-        if (scanf("%d", &choice) != 1) {
-            printf("\n[!] Invalid input! Please enter a number between 1 and 5.\n");
-            clearInputBuffer();
+    for (;;) {
+        showMenu();
+
+        if (!readInt("Choose an option (1-5): ", &choice)) {
+            puts("Invalid choice. Please enter a number from 1 to 5.");
             continue;
         }
 
-        // Exit condition
         if (choice == 5) {
-            printf("\nThank you for using the CodeAlpha Calculator. Goodbye!\n");
+            puts("Goodbye.");
             break;
         }
 
-        // Check for out-of-range choices
         if (choice < 1 || choice > 5) {
-            printf("\n[!] Error: Invalid choice. Please try again.\n");
+            puts("Please select a valid option.");
             continue;
         }
 
-        // Get numbers from user
-        printf("Enter first number: ");
-        if (scanf("%lf", &num1) != 1) {
-            printf("[!] Invalid number format.\n");
-            clearInputBuffer();
+        if (!readDouble("Enter the first number: ", &first)) {
+            puts("That is not a valid number.");
             continue;
         }
 
-        printf("Enter second number: ");
-        if (scanf("%lf", &num2) != 1) {
-            printf("[!] Invalid number format.\n");
-            clearInputBuffer();
+        if (!readDouble("Enter the second number: ", &second)) {
+            puts("That is not a valid number.");
             continue;
         }
 
-        // Perform calculation using switch case
         switch (choice) {
             case 1:
-                result = num1 + num2;
-                printf("\n>>> Result: %.4lf + %.4lf = %.4lf\n", num1, num2, result);
+                result = first + second;
+                printf("Result: %.2f + %.2f = %.2f\n", first, second, result);
                 break;
             case 2:
-                result = num1 - num2;
-                printf("\n>>> Result: %.4lf - %.4lf = %.4lf\n", num1, num2, result);
+                result = first - second;
+                printf("Result: %.2f - %.2f = %.2f\n", first, second, result);
                 break;
             case 3:
-                result = num1 * num2;
-                printf("\n>>> Result: %.4lf * %.4lf = %.4lf\n", num1, num2, result);
+                result = first * second;
+                printf("Result: %.2f * %.2f = %.2f\n", first, second, result);
                 break;
             case 4:
-                // Safe division check
-                if (num2 == 0) {
-                    printf("\n[!] Error: Division by zero is mathematically undefined.\n");
-                } else {
-                    result = num1 / num2;
-                    printf("\n>>> Result: %.4lf / %.4lf = %.4lf\n", num1, num2, result);
+                if (second == 0.0) {
+                    puts("Division by zero is not allowed.");
+                    break;
                 }
+
+                result = first / second;
+                printf("Result: %.2f / %.2f = %.2f\n", first, second, result);
+                break;
+            default:
+                puts("Please select a valid option.");
                 break;
         }
     }
@@ -75,21 +73,74 @@ int main() {
     return 0;
 }
 
-// Function to print a clean interface menu
-void displayMenu() {
-    printf("\n===================================\n");
-    printf("         CALCULATOR        \n");
-    printf("===================================\n");
-    printf(" 1. Addition (+)\n");
-    printf(" 2. Subtraction (-)\n");
-    printf(" 3. Multiplication (*)\n");
-    printf(" 4. Division (/)\n");
-    printf(" 5. Exit\n");
-    printf("-----------------------------------\n");
+static void showMenu(void) {
+    puts("");
+    puts("====================");
+    puts("    Calculator");
+    puts("====================");
+    puts("1. Add");
+    puts("2. Subtract");
+    puts("3. Multiply");
+    puts("4. Divide");
+    puts("5. Exit");
 }
 
-// Function to clean up bad inputs (like letters) so the program doesn't crash
-void clearInputBuffer() {
-    int c;
-    while ((c = getchar()) != '\n' && c != EOF);
+static int readInt(const char *prompt, int *value) {
+    char buffer[INPUT_SIZE];
+    char *end;
+    long parsed;
+
+    fputs(prompt, stdout);
+
+    if (fgets(buffer, sizeof buffer, stdin) == NULL) {
+        return 0;
+    }
+
+    errno = 0;
+    parsed = strtol(buffer, &end, 10);
+
+    if (buffer == end) {
+        return 0;
+    }
+
+    while (*end == ' ' || *end == '\t' || *end == '\n') {
+        end++;
+    }
+
+    if (errno != 0 || *end != '\0') {
+        return 0;
+    }
+
+    *value = (int)parsed;
+    return 1;
+}
+
+static int readDouble(const char *prompt, double *value) {
+    char buffer[INPUT_SIZE];
+    char *end;
+    double parsed;
+
+    fputs(prompt, stdout);
+
+    if (fgets(buffer, sizeof buffer, stdin) == NULL) {
+        return 0;
+    }
+
+    errno = 0;
+    parsed = strtod(buffer, &end);
+
+    if (buffer == end) {
+        return 0;
+    }
+
+    while (*end == ' ' || *end == '\t' || *end == '\n') {
+        end++;
+    }
+
+    if (errno != 0 || *end != '\0') {
+        return 0;
+    }
+
+    *value = parsed;
+    return 1;
 }

@@ -1,6 +1,6 @@
-# Calculator Program
+# Calculator
 
-An interactive command-line calculator written in C. The program provides a clean menu-driven interface for basic arithmetic operations, validates user input, and safely handles division by zero.
+This is a small command-line calculator written in C. It keeps the flow simple: pick an operation, enter two numbers, and get the result.
 
 ## Features
 
@@ -8,49 +8,32 @@ An interactive command-line calculator written in C. The program provides a clea
 - Subtraction
 - Multiplication
 - Division
-- Input validation for numeric and menu selections
-- Graceful handling of invalid input
-- Safe check for division by zero
-
-## Requirements
-
-- A C compiler such as GCC or Clang
-- A terminal or command prompt to run the program
+- Basic input validation
+- Protection against division by zero
 
 ## Build
 
-Compile the program from the project directory:
+Use any C compiler. With GCC:
 
 ```bash
-gcc -o calculator calculator.c
+gcc -std=c11 -Wall -Wextra -Wpedantic -o calculator.exe calculator.c
 ```
 
 ## Run
 
-After building, start the calculator with:
-
-```bash
-./calculator
-```
-
-On Windows, you may need to run:
+On Windows:
 
 ```bash
 calculator.exe
 ```
 
-## Usage
+On Linux or macOS, build and run with:
 
-1. Choose an operation from the menu.
-2. Enter the first number.
-3. Enter the second number.
-4. View the result on screen.
-5. Select exit when you are done.
+```bash
+gcc -std=c11 -Wall -Wextra -Wpedantic -o calculator calculator.c
+./calculator
+```
 
-## Project Structure
+## Files
 
-- `calculator.c` - Main source file containing the calculator logic
-
-## Repository
-
-[GitHub Repository](https://github.com/kansaldhruv/CodeAlpha_CALCULATOR-PROGRAM.git)
+- `calculator.c` - Main calculator program
