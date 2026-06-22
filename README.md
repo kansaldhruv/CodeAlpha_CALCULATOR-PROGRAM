@@ -14,5 +14,3 @@ Run
 ```
 ./calculator
 ```
-
-License: MIT (see LICENSE)
